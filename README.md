@@ -16,19 +16,26 @@
 
 # 项目目录结构介绍
 asset目录下放了资源文件，比如css，js，图片等等。
+
 info目录下存放了用来统计查询过信息的用户数量的文件。
+
 lib目录下放的是整个查询流程处理业务逻辑的后台文件。各个文件的介绍如下：
   Curl.class.php  ---- 进行curl操作的核心类，对post请求和get请求的方法对外开放，外部只需要直接调用该方法即可。
   Memcached.class.php   ----- 进行缓存操作的核心类，对set和get方法对外开放。
   Cet.class.php         ----- 进行四六级查询的核心类
   count.php             ----- 负责后台统计查询次数，返回json数据
   query.php             ------接收前台用户填写的表单信息，然后调用Cet类的方法，返回json数据
+  
 index.html    -------项目入口文件，纯静态
   
 # 使用说明
+
 1.由于使用了__autoload自动加载的方法，该方法为php新特性，因此需要php version>5.5的方可正常运行。
+
 2.必须得开启curl扩展，并且安装相关的依赖。具体怎样安装网上也有很多教程。
+
 3.必须得开始memcached扩展，并安装memcached服务。具体怎样安装网上也有很多教程。
 
 # 测试地址
+
  目前该项目已上线，可通过 http://leshen.applinzi.com/cet/  测试。
