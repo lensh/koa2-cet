@@ -7,14 +7,53 @@
 1.无准考证查询和有准考证查询都在一个页面里，查询操作用了ajax，查询结果以淡入淡出的模态框的形式展现。整个查询流程无任何页面跳转，极大地提高了用户的体验度。
 
 2.使用了memcached缓存技术，如果用户已经查找过信息，则直接从缓存里获取数据，无需访问数据库，极大地缓解了数据库的压力，而且提供了查询速度。
+```php
+    //获取
+		$number=$data['zkzh'];
+		$memcached=new Memcached();
+		if($memcached->get($number)){
+			$result=json_encode($memcached->get($number));
+			$memcached->close();
+			return $result;
+		}
+    //设置
+    $memcached=new Memcached();
+		$memcached->set($array['number'],$array);   //写入缓存
+		$memcached->close();
+```
 
 3.前台使用了ajax技术及定时器来获取查询过信息的用户的数量。由于数据量很小，所以优先选择了文件存储的方式，而不是数据库，极大地节约了资源。
+
+```php
+	 /**
+     * 统计查询的次数，并写入文件
+     * @return void
+     */	
+	private function writeCount(){
+		$times=file_get_contents('../info/count.txt');
+		file_put_contents('../info/count.txt',intval($times)+1);
+	}
+  
+  //count.php的内容
+  /*在首页显示查询的次数*/
+  $times=file_get_contents('../info/count.txt');
+  $arr=array('times'=>$times);
+  echo json_encode($arr);
+
+```
 
 4.采用了面向对象的方式，对查询的业务逻辑封装成了一个类。入口处只需调用该类对外的公共方法即可，完美地体现了封装性。
 
 5.前台使用了bootstrap框架，兼容pc和移动端。显示效果很佳。
 
 6.服务器设置了请求来源仅限于本域名，以及只有在ajax请求的情况下才能处理业务逻辑，完美地防止了别人的模拟请求。
+
+```php
+  header("Access-Control-Allow-Origin:http://leshen.applinzi.com/cet"); //只允许本站提交数据,防ajax跨域 
+  
+  //判断是否为ajax请求，防止别人利用curl的post抓取数据
+  if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")
+```
 
 # 项目目录结构介绍
 asset目录下放了资源文件，比如css，js，图片等等。
@@ -38,7 +77,14 @@ index.html    -------项目入口文件，纯静态
   
 # 使用说明
 
-1.由于使用了__autoload自动加载的方法，该方法为php新特性，因此需要php version>5.5的方可正常运行。
+1.由于使用了__autoload自动加载的方法，该方法为php新特性，因此需要php version>5.5的方可正常运行。如果不想使用这个方法,则把以下代码删除，
+并且使用require手动导入类文件。
+  ```php
+  /*自动加载类*/
+  function __autoload($className){
+	  require __DIR__.'\\'.$className.'.class.php';
+  }
+  ```
 
 2.必须得开启curl扩展，并且安装相关的依赖。具体怎样安装网上也有很多教程。
 
