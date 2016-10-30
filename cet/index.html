@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="shortcut icon" href="asset/image/favicon.png">
+	<title>英语四六级无准考证查询</title>
+	<meta name="Keywords" content="英语四六级无准考证查询">
+	<meta name="description" content="英语四六级成绩查询,英语四六级无准考证查询,英语四六级准考证找回,四六级,无准考证查询">
+	<link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="asset/css/bootstrap-responsive.min.css" type="text/css">
+	<style type="text/css">
+		body{font-family: '微软雅黑' !important;
+			 font-size: 16px;
+			 margin: 0; padding: 0;}
+		.form-group{margin:20px}
+		.form-inline{padding: 10px}
+		h1{font-size:22px;margin-top:50px;color: #666;height: 20px;line-height: 20px}
+		input{width: 95%;height:35px !important;line-height:35px;user-select:text !important;
+			display: block !important}
+		label{font-size: 16px}
+		.search{width:95% !important;outline: none;display: block !important;
+			cursor: pointer;padding: 10px 0;}
+		.text-danger{color:red !important;}
+	</style>
+</head>
+<body>
+<h1 class="text-center">英语四六级无准考证查询</h1>
+<div class="well" style="margin:12px">
+	<div class="container" style="margin-top:30px">
+		<form class="form-inline text-center hide" id="form1" onsubmit="return false;">
+			<div class="form-group">
+			  	<input type="text" class="form-control" name="user" placeholder="请输入姓名">
+			 </div>
+			 <div class="form-group">
+			  	<input type="text" class="form-control" name="number" placeholder="请输入准考证号">
+			  </div>
+			  <div class="form-group">
+				   <input type="submit" class="btn btn-info search" id="search1" value="查询">
+			  </div>
+		</form>
+		<form class="form-horizontal text-center" id="form2" onsubmit="return false;">
+			 <div class="form-group">
+			  	  <input type="text" class="form-control" name="user1" placeholder="请输入姓名">
+			 </div>
+			 <div class="form-group">
+			  	<input type="text" class="form-control" name="province" 
+			  	placeholder="请输入省份,例如:江西、北京、广西">
+			 </div>
+			 <div class="form-group">
+			  	<input type="text" class="form-control" name="school" 
+			  	placeholder="请输入学校名称">
+			 </div>
+			 <div class="form-group">
+			  	<input type="text" class="form-control" name="type" 
+			  	placeholder="请输入考试类别,例如:四级、六级">
+			 </div>
+			  <div class="form-group">
+				   <input type="submit" class="btn btn-info search" id="search2" value="查询">
+			  </div>
+		</form>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<p>
+				<a href="#" class="text-primary m-l-5" id="change">有准考证查询
+				</a>
+			</p>
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" tabindex="-1" id="myModal">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+            ×
+            </button>
+            <h4 class="modal-title">
+               查询结果
+            </h4>
+         </div>
+         <div class="modal-body">
+            <div class="row" style="margin-left:10px">
+               <p id="error" class="alert alert-warning">请仔细核对您输入的信息</p>
+               <div>
+	               <p>姓名:<span class="text-pink" id="r_xm" style="color:red"></span></p>
+	               <p>学校:<span class="text-success" id="r_school"></span></p>
+	               <p>考试类别:<span class="text-success" id="r_type"></span></p>
+	               <p>准考证号:<span class="text-success" id="r_number"></span></p>
+	               <p>考试时间:<span class="text-success" id="r_time"></span></p>
+	               <hr>
+	               <p id="r_info" class="alert alert-success"></p>
+	               <p>总分:<span class="text-success" id="r_total"></span></p>
+	               <p>听力:<span class="text-success" id="r_listen"></span></p>
+	               <p>阅读:<span class="text-success" id="r_reading"></span></p>
+	               <p>写作翻译:<span class="text-success" id="r_writing"></span></p>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">
+            关闭
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- /.modal -->
+
+<div class="row">
+	<div class="col-sm-12 text-center">	
+		<p class="alert alert-warning text-center block" style="width:95%;display:block;margin:0 auto">已累计为<span id="times" class="text-danger"></span>位用户查询</p>			
+		<p><br/><br/><br/>©lenshen 2016</p>
+	</div>
+</div>
+
+
+<!-- js  -->
+<script src="asset/js/jquery.min.js"></script>
+<script src="asset/js/bootstrap.min.js"></script>
+<script src="asset/js/cet.js"></script>
+<script type="text/javascript">
+	Cet.run();
+</script>
+</body>
+</html>
