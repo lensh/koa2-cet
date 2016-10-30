@@ -84,6 +84,10 @@ var Cet={
 	},
 	'init':function(){
 		$('input[name=user1]').focus();
+		//禁止网页放入框架
+		if(self != top){
+			top.location.href=self.location.href;
+		}
 	},
 	'run':function(){
 		Cet.init();
