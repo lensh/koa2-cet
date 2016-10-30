@@ -55,12 +55,13 @@
   if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")
 ```
 7.能有效地防止本站放入框架里。
-``js
+
+```js
   //禁止网页放入框架
   if(self != top){
 	top.location.href=self.location.href;
   }
-``
+```
 # 项目目录结构介绍
 asset目录下放了资源文件，比如css，js，图片等等。
 
