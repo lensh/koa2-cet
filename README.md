@@ -48,4 +48,7 @@ index.html    -------项目入口文件，纯静态
 
  目前该项目已上线，可通过 http://leshen.applinzi.com/cet/  测试。
  效果如下：
- 
+  首页
+  ![](https://github.com/lensh/cet/blob/master/cet/asset/image/1.png)
+  查询结果
+  ![](https://github.com/lensh/cet/blob/master/cet/asset/image/2.png)
