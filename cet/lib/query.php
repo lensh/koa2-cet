@@ -5,7 +5,9 @@ function __autoload($className){
 	require __DIR__.'\\'.$className.'.class.php';
 }
 
-//判断是否为ajax请求
+header("Access-Control-Allow-Origin:http://leshen.applinzi.com/cet"); //只允许本站提交数据,防ajax跨域  
+
+/*判断是否为ajax请求,防止别人模拟post抓取数据*/
 if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest"){ 
     
     //有准考证查询
@@ -26,7 +28,7 @@ if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUEST
         echo $cet->getScoreByNone($data);
     }
 }else{ 
-    echo "forbidden";
+     echo "we caught you! you have no access!";
 };
 
 
