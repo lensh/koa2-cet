@@ -8,7 +8,7 @@
 
 class Cet{
 
-	/**
+   /**
      * 有准考证获取成绩,从学信网抓取
      * @param  array   $data  用户信息
      * @return string  返回json格式的数据
@@ -28,14 +28,14 @@ class Cet{
 		return $this->parse($curl->curl_get_chain($url,$data,$preferer));
 	}
 
-	/**
+   /**
      * 解析学信网响应的html，对有准考证查询有效
      * @param  array   $data  用户信息
      * @return string  返回json格式的数据
      */		
 	private function parse($data){
-		$table_preg='/<table border="0" align="center" cellpadding="0" cellspacing="6" class="cetTable">.+<\/table>/Us';
-		$tr_preg='/<tr>\s+<th>(.*)<\/th>\s+<td>(.*)<\/td>\s+<\/tr>/Us';
+	    $table_preg='/<table border="0" align="center" cellpadding="0" cellspacing="6" class="cetTable">.+<\/table>/Us';
+	    $tr_preg='/<tr>\s+<th>(.*)<\/th>\s+<td>(.*)<\/td>\s+<\/tr>/Us';
 	    $total_preg='/<span class="colorRed">\s+(.*)\s+<\/span>/Us';
 	    $detail_preg='/<span class="color666">(.*)<\/span>\s+(.+)\s+<br \/>/Us';
 	    $write_preg='/<span class="color666">写作与翻译：<\/span>\s+(.+)\s+<\/td>/Us';
@@ -67,7 +67,7 @@ class Cet{
 		return json_encode(array('status'=>501));
 	}
 
-	/**
+   /**
      * 无准考证获取成绩
      * @param  array   $data  用户信息
      * @return string  返回json格式的数据
@@ -100,7 +100,7 @@ class Cet{
 				'writing'=>$result_obj->score->xzpyScore,
 			);
 			$this->writeCount();
-		    $memcached=new Memcached();
+		        $memcached=new Memcached();
 			$memcached->set($name,$result_arr);   //写入缓存
 			$memcached->close();
 			return json_encode($result_arr);
@@ -108,7 +108,7 @@ class Cet{
 	    return $result;
 	}
 
-	/**
+   /**
      * 统计查询的次数，并写入文件
      * @return void
      */	
