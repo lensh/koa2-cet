@@ -36,10 +36,7 @@
 
 class Curl{
 
-	/**
-     * curl资源句柄
-     * @var resource
-     */
+    /*curl资源句柄*/
     private $curl;
 
     /*curl选项*/
@@ -67,7 +64,7 @@ class Curl{
         $this->verifyHost=isset($options['verifyHost'])?$options['verifyHost']:2;
     }   
 
-	/**
+   /**
      * 设置curl选项
      * @param  string   $url  	请求的url
      * @param  boolean  $ssl 	是否以https协议传输
@@ -90,7 +87,7 @@ class Curl{
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, $this->isReturn);//curl_exec()是否返回响应结果
     }
 
-	/**
+   /**
      * 执行curl请求
      * @return string  返回响应内容
      */	
@@ -105,7 +102,7 @@ class Curl{
 		return $response;
     }
 
-	/**
+   /**
      * curl模拟post请求,返回响应的内容
      * @param  string   $url  		请求的url
      * @param  array    $data  		发送的数据，数组
@@ -127,7 +124,7 @@ class Curl{
 		$this->exec();
 	}
 
-	/**
+   /**
      * curl模拟一般的get请求,返回响应的内容
      * @param  string   $url  		请求的url,可以带查询参数
      * @param  boolean  $ssl 		是否以https协议传输,默认为true
@@ -144,7 +141,7 @@ class Curl{
 		$this->exec();
 	}	
 
-	/**
+   /**
      * curl模拟需要盗链的get请求,返回响应的内容
      * @param  string   $url  		请求的url
      * @param  array    $data  		查询参数，数组形式，方法内会自动转换为字符串形式
@@ -160,8 +157,8 @@ class Curl{
 			$param.= urlencode($k).'='.urlencode($v).'&';
 		}
 		/*设置查询参数*/
-    	curl_setopt($this->curl, CURLOPT_POST, 0);
-  	    curl_setopt($this->curl, CURLOPT_POSTFIELDS, $param);
+    	        curl_setopt($this->curl, CURLOPT_POST, 0);
+  	        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $param);
 
 		/*设置referer盗链*/
 		curl_setopt($this->curl, CURLOPT_REFERER, $referer);
