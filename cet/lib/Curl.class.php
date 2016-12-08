@@ -75,8 +75,8 @@ class Curl{
 		curl_setopt($this->curl, CURLOPT_URL, $url);//URL
 		curl_setopt($this->curl, CURLOPT_USERAGENT, $this->userAgent);//userAgent，请求代理信息
 		curl_setopt($this->curl, CURLOPT_TIMEOUT, $this->timeout);//设置超时时间
-
-		/*SSL相关*/
+		curl_setopt($this->curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0); //设置http协议的版本
+	        /*SSL相关*/
 		if ($ssl) {
 			curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER,$this->verifyPeer);//禁用后cURL将终止从服务端进行验证
 			curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST,$this->verifyHost);//检查服务器SSL证书中是否存在一个公用名(common name)。
@@ -163,7 +163,7 @@ class Curl{
 		/*设置referer盗链*/
 		curl_setopt($this->curl, CURLOPT_REFERER, $referer);
 
-  	    /*执行curl请求*/
+  	        /*执行curl请求*/
 		if($this->isReturn){
 			return $this->exec();
 		}
