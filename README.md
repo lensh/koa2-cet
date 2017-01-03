@@ -98,7 +98,7 @@ index.html    -------项目入口文件，纯静态
 
 # 测试地址
 
- 目前该项目已上线，可通过 http://cet.lenshen.com:8088 测试。
+ 目前该项目已上线，可通过 http://cet.lenshen.com 测试。
  效果如下：
   首页
   ![](https://github.com/lensh/cet/blob/master/cet/asset/image/1.png)
