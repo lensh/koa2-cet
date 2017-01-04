@@ -18,14 +18,14 @@
 		}
     //设置
     $memcached=new Memcached();
-		$memcached->set($array['number'],$array);   //写入缓存
-		$memcached->close();
+    $memcached->set($array['number'],$array);   //写入缓存
+    $memcached->close();
 ```
 
 3.前台使用了ajax技术及定时器来获取查询过信息的用户的数量。由于数据量很小，所以优先选择了文件存储的方式，而不是数据库，极大地节约了资源。
 
 ```php
-	 /**
+   /**
      * 统计查询的次数，并写入文件
      * @return void
      */	
@@ -49,7 +49,7 @@
 6.服务器设置了请求来源仅限于本域名，以及只有在ajax请求的情况下才能处理业务逻辑，完美地防止了别人的模拟请求。
 
 ```php
-  header("Access-Control-Allow-Origin:http://leshen.applinzi.com/cet"); //只允许本站提交数据,防ajax跨域 
+  header("Access-Control-Allow-Origin:http://cet.lenshen.com"); //只允许本站提交数据,防ajax跨域 
   
   //判断是否为ajax请求，防止别人利用curl的post抓取数据
   if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")
@@ -92,9 +92,9 @@ index.html    -------项目入口文件，纯静态
   }
   ```
 
-2.必须得开启curl扩展，并且安装相关的依赖。具体怎样安装网上也有很多教程。
+2.必须得开启curl扩展，并且安装相关的依赖。具体怎样安装网上有很多教程。
 
-3.必须得开启memcached扩展，并安装memcached服务。具体怎样安装网上也有很多教程。
+3.必须得开启php-memcache扩展，并安装memcached服务。具体怎样安装网上也有很多教程。
 
 # 测试地址
 
