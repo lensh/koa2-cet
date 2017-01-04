@@ -1,7 +1,7 @@
 # cet
 英语四六级无准考证查询，也支持有准考证查询
 # 核心技术
-使用php代理的方式实现四六级成绩的查询，其中php使用了curl相关操作去学信网抓取数据。然后前台使用jq post来获取后台返回的数据，并将数据写回到静态页面里。
+使用php代理的方式实现四六级成绩的查询，其中php使用了curl相关操作去学信网抓取数据。然后前台使用jq post来获取后台返回的数据，并将数据动态写回到静态页面里。
 
 # 技术优势
 1.无准考证查询和有准考证查询都在一个页面里，查询操作用了ajax，查询结果以淡入淡出的模态框的形式展现。整个查询流程无任何页面跳转，极大地提高了用户的体验度。
@@ -9,13 +9,14 @@
 2.使用了memcached缓存技术，如果用户已经查找过信息，则直接从缓存里获取数据，无需访问数据库，极大地缓解了数据库的压力，而且提高了查询速度。
 ```php
     //获取
-		$number=$data['zkzh'];
-		$memcached=new Memcached();
-		if($memcached->get($number)){
-			$result=json_encode($memcached->get($number));
-			$memcached->close();
-			return $result;
-		}
+    $number=$data['zkzh'];
+    $memcached=new Memcached();
+    if($memcached->get($number)){
+	$result=json_encode($memcached->get($number));
+	$memcached->close();
+	return $result;
+    }
+    
     //设置
     $memcached=new Memcached();
     $memcached->set($array['number'],$array);   //写入缓存
@@ -42,16 +43,14 @@
 
 ```
 
-4.采用了面向对象的方式，对查询的业务逻辑封装成了一个类。入口处只需调用该类对外的公共方法即可，完美地体现了封装性。
+4.前台使用了bootstrap框架，兼容PC，IPad和移动端，适配度高。
 
-5.前台使用了bootstrap框架，兼容PC，IPad和移动端，完美适配。
-
-6.服务器设置了请求来源仅限于本域名，以及只有在ajax请求的情况下才能处理业务逻辑，完美地防止了别人的模拟请求。
+6.服务器设置了请求来源仅限于本域名，以及只有在ajax请求的情况下才能处理业务逻辑，有效地防止了别人的模拟请求。
 
 ```php
   header("Access-Control-Allow-Origin:http://cet.lenshen.com"); //只允许本站提交数据,防ajax跨域 
   
-  //判断是否为ajax请求，防止别人利用curl的post抓取数据
+  //只能是ajax请求，以防止别人利用curl的post抓取数据
   if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")
 ```
 7.能有效地防止本站放入框架里。
@@ -92,9 +91,9 @@ index.html    -------项目入口文件，纯静态
   }
   ```
 
-2.必须得开启curl扩展，并且安装相关的依赖。具体怎样安装网上有很多教程。
+2.必须得安装并开启curl扩展，并且安装相关的依赖。具体怎样安装网上有很多教程。
 
-3.必须得开启php-memcache扩展，并安装memcached服务。具体怎样安装网上也有很多教程。
+3.必须得安装并开启php-memcache扩展，并安装memcached服务。具体怎样安装网上也有很多教程。
 
 # 测试地址
 
