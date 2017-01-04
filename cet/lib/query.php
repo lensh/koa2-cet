@@ -5,7 +5,7 @@ function __autoload($className){
 	require __DIR__.'\\'.$className.'.class.php';
 }
 
-header("Access-Control-Allow-Origin:http://leshen.applinzi.com/cet"); //只允许本站提交数据,防ajax跨域  
+header("Access-Control-Allow-Origin:http://cet.lenshen.com"); //只允许本站提交数据,防ajax跨域 
 
 /*判断是否为ajax请求,防止别人模拟post抓取数据*/
 if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest"){ 
