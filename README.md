@@ -45,7 +45,7 @@
 
 4.前台使用了bootstrap框架，兼容PC，IPad和移动端，适配度高。
 
-6.服务器设置了请求来源仅限于本域名，以及只有在ajax请求的情况下才能处理业务逻辑，有效地防止了别人的模拟请求。
+5.服务器设置了请求来源仅限于本域名，以及只有在ajax请求的情况下才能处理业务逻辑，有效地防止了别人的模拟请求。
 
 ```php
   header("Access-Control-Allow-Origin:http://cet.lenshen.com"); //只允许本站提交数据,防ajax跨域 
@@ -53,7 +53,7 @@
   //只能是ajax请求，以防止别人利用curl的post抓取数据
   if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")
 ```
-7.能有效地防止本站放入框架里。
+6.能有效地防止本站放入框架里。
 
 ```js
   //禁止网页放入框架
