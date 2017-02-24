@@ -52,13 +52,13 @@ class AutoSendEmail {
 	 */
 	public function send(){
 		$data=$this->getData();
-		if(count($data)==0) return;
+		if(count($data)==0) return;  //如果没有status=0的记录，则直接返回
 		$cet= new Cet();
 		foreach ($data as $k => $v) {		
 			$res=$cet->getScoreByNumber(array('zkzh'=>$v['number'],'xm'=>$v['name']));
 			$arr=json_decode($res,1);
 
-			if($arr['code']==400) continue;
+			if($arr['code']==400) continue;  //如果没有查询到成绩，则不发送邮件
 			extract($arr['data']);
 			
 			$content =<<<HTML
@@ -95,7 +95,7 @@ HTML;
 
 	/**
 	 * 取出后更新记录的状态
-	 * @param  $id 
+	 * @param  $id  记录的id
 	 * @return void
 	 */
 	private function update($id){

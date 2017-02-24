@@ -34,17 +34,37 @@ status=0的记录，找到后再去学信网抓取成绩，最后将成绩以邮
 
 >>  js		-----  压缩后的js目录  
 
-> node_modules    ----- 与gulp工具有关的node第三方模块。
+> node_modules    ----- 与前端自动化构建工具gulp相关的node第三方模块。
 
 > src     -----  源文件目录  
 
 >>  assets		-----  资源目录  
 
->>  bin		-----  与自动查询相关的bat或者shell文件的目录，使用时一定要留意  
+>>  bin		-----  与自动查询相关的bat或者shell文件的目录，使用时一定要留意
+
+>>> auto.bat     -----  windows下实现自动查询的批处理文件，双击即可
+
+>>> auto.php     -----  发送邮件的入口文件
+
+>>> auto.php     -----  发送邮件的入口文件
+
+>>> auto.shell     -----  linux下实现自动查询的shell脚本，需要结合crontab才能使用
 
 >>  config		-----  数据库配置文件的目录
 
->>  model		-----  后台目录
+>>> config.php     -----  配置文件，包含了数据库的配置信息
+
+>>  model		-----  后台业务逻辑处理目录
+
+>>> AutoSendEmail.class.php     -----  发送邮件类
+
+>>> Cet.class.php     -----  四六级成绩查询类
+
+>>> Curl.class.php     -----  Curl操作类，模拟请求
+
+>>> Mysql.class.php     -----  Mysql操作类
+
+>>> query.php     -----  后台入口文件
 
 >>  PHPMailer		-----  第三方邮件发送包目录
 
@@ -71,7 +91,7 @@ status=0的记录，找到后再去学信网抓取成绩，最后将成绩以邮
 
 ```
 
-* 需要安装并在php.ini里开启php_curl扩展，具体怎样安装网上有很多教程。
+* 需要安装php_curl扩展并在php.ini里开启，具体怎样安装网上有很多教程。
 
 * 数据库的信息配置在config目录下的config.php里，换成你的数据库的配置信息。
 

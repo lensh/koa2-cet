@@ -3,6 +3,7 @@
 :: 注意：
 ::	如果遇到Call to undefined function curl_init()的错误，请检查你的系统中是否已经安装
 ::  好了curl的相关扩展。
+::  直接在url地址栏里访问auto.php可实现发送邮件的功能。
 
 @echo off  
 php auto.php  

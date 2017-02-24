@@ -65,7 +65,8 @@ class Cet{
 
 	/**
 	 * 添加用户信息
-	 * @param [type] $data [description]
+	 * @param 	array $data 用户信息
+	 * @return  json
 	 */
 	public function addUserInfo($data){
 		extract($data);

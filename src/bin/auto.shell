@@ -10,6 +10,7 @@
 #   需要使用linux的crontab工具来执行该shell文件
 #   -f 后面的参数应该是auto.php的绝对路径，如果你的项目已经放在了html目录下，则-f 参数不需要改
 #   auto.php必须是可执行文件，使用 chmod +x auto.php命令即可为其添加可执行权限
+#   直接在url地址栏里访问auto.php可实现发送邮件的功能。
 
 # 如有疑问请参考：
 #	http://blog.csdn.net/zls986992484/article/details/53108836
