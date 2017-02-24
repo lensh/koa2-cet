@@ -1,108 +1,121 @@
-# cet
-英语四六级有准考证查询 【该版本已废弃，请参考新版本 https://github.com/lensh/Angular-Cet 】
-# 核心技术
-使用php代理的方式实现四六级成绩的查询，其中php使用了curl相关操作去学信网抓取数据。然后前台使用jq post来获取后台返回的数据，并将数据动态写回到静态页面里。
+# Cet
+
+英语四六级成绩自动查询，够快捷，够方便，同时提供免费接口API
 
 # 技术优势
-1.无准考证查询和有准考证查询都在一个页面里，查询操作用了ajax，查询结果以淡入淡出的模态框的形式展现。整个查询流程无任何页面跳转，极大地提高了用户的体验度。
 
-2.使用了memcached缓存技术，如果用户已经查找过信息，则直接从缓存里获取数据，无需访问数据库，极大地缓解了数据库的压力，而且提高了查询速度。
-```php
-    //获取
-    $number=$data['zkzh'];
-    $memcached=new Memcached();
-    if($memcached->get($number)){
-	$result=json_encode($memcached->get($number));
-	$memcached->close();
-	return $result;
-    }
-    
-    //设置
-    $memcached=new Memcached();
-    $memcached->set($array['number'],$array);   //写入缓存
-    $memcached->close();
-```
+* 自动查询，够快捷，够方便。在过去，四六级成绩公布后，我们需要去学信网查询成绩，如果准考证忘记
+了的话，就要下载99宿舍来找回准考证号，过程实在是麻烦。而本系统只需要你考完试后填写相关信息，
+待官网公布成绩后，就会在第一时间将你的成绩以邮件的形式通知你，省去了很多麻烦。
 
-3.前台使用了ajax技术及定时器来获取查询过信息的用户的数量。由于数据量很小，所以优先选择了文件存储的方式，而不是数据库，极大地节约了资源。
+* 系统足够安全。例如为了防止目录被偷窥，几乎在每个目录下都内置了index.html。另外也能防SQL注入、
+XSS攻击等等。
 
-```php
-   /**
-     * 统计查询的次数，并写入文件
-     * @return void
-     */	
-	private function writeCount(){
-		$times=file_get_contents('../info/count.txt');
-		file_put_contents('../info/count.txt',intval($times)+1);
-	}
-  
-  //count.php的内容
-  /*在首页显示查询的次数*/
-  $times=file_get_contents('../info/count.txt');
-  $arr=array('times'=>$times);
-  echo json_encode($arr);
+* 提供接口API。本系统同时提供免费接口API，只需要调用接口即可查询成绩。
 
-```
+* 支持在线成绩查询。
 
-4.前台使用了bootstrap框架，兼容PC，IPad和移动端，适配度高。
+* 性能很好。由于前台使用了AngularJS，极大地减少了DOM的操作。
 
-5.服务器设置了请求来源仅限于本域名，以及只有在ajax请求的情况下才能处理业务逻辑，有效地防止了别人的模拟请求。
 
-```php
-  header("Access-Control-Allow-Origin:http://cet.lenshen.com"); //只允许本站提交数据,防ajax跨域 
-  
-  //只能是ajax请求，以防止别人利用curl的post抓取数据
-  if(isset($_SERVER["HTTP_X_REQUESTED_WITH"])&&strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest")
-```
-6.能有效地防止本站放入框架里。
+# 原理解析
 
-```js
-  //禁止网页放入框架
-  if(self != top){
-	top.location.href=self.location.href;
-  }
-```
-# 项目目录结构介绍
-> asset目录下放了资源文件，比如css，js，图片等等。
+* 成绩的获取：使用CURL相关函数去学信网进行模拟请求，将抓取到的数据使用正则进行筛选分析。
 
-> info目录下存放了用来统计查询过信息的用户数量的文件。
+* 自动查询：用户填写相关的信息，然后写到数据库里，并有标记字段status，0为还未发送邮件
+(表明成绩还未公布)，然后使用linux的crontab定时任务工具，定时执行auto.shell脚本，去数据库里查找
+status=0的记录，找到后再去学信网抓取成绩，最后将成绩以邮件的形式发给用户，同时将status置为1。
 
-> lib目录下放的是整个查询流程处理业务逻辑的后台文件。各个文件的介绍如下：
 
->>  Curl.class.php  ---- 进行curl操作的核心类，对post请求和get请求的方法对外开放，外部只需要直接调用该方法即可。
-  
->>  Memcached.class.php   ----- 进行缓存操作的核心类，对set和get方法对外开放。
-  
->>  Cet.class.php         ----- 进行四六级查询的核心类
-  
->>  count.php             ----- 负责后台统计查询次数，返回json数据
-  
->>  query.php             ------接收前台用户填写的表单信息，然后调用Cet类的方法，返回json数据
-  
-  
-> index.html    -------项目入口文件，纯静态
-  
+# 目录结构介绍
+> dist   ----- 压缩后的css和js
+
+>>  css		-----  压缩后的css目录  
+
+>>  js		-----  压缩后的js目录  
+
+> node_modules    ----- 与gulp工具有关的node第三方模块。
+
+> src     -----  源文件目录  
+
+>>  assets		-----  资源目录  
+
+>>  bin		-----  与自动查询相关的bat或者shell文件的目录，使用时一定要留意  
+
+>>  config		-----  数据库配置文件的目录
+
+>>  model		-----  后台目录
+
+>>  PHPMailer		-----  第三方邮件发送包目录
+
+>>  index.html		-----  前台入口，网站首页
+
+> cet.sql  	 -----  数据库导出文件 
+
+> gulpfile.js  	 -----  自动化工具gulp的控制文件 
+
+> package.json  	-----  包管理配置文件
+
+
+
 # 使用说明
 
-1.由于使用了__autoload自动加载类的方法，该方法为php新特性，因此需要php version>5.5的方可正常运行。如果不想使用这个方法,则把以下代码删除，并且使用require手动导入类文件。
-  ```php
-  /*自动加载类*/
+* 由于使用了__autoload自动加载类的方法，该方法为php新特性，因此需要php version>5.5的方可正常运行。如果不想使用这个方法,则把以下代码删除，并且使用require手动导入类文件。
+
+```
+
+ /*自动加载类*/
   function __autoload($className){
-	  require __DIR__.'\\'.$className.'.class.php';
+      require __DIR__.'\\'.$className.'.class.php';
   }
-  ```
 
-2.必须得安装并开启curl扩展，并且安装相关的依赖。具体怎样安装网上有很多教程。
+```
 
-3.必须得安装并开启php-memcache扩展，并安装memcached服务。具体怎样安装网上也有很多教程。
+* 需要安装并在php.ini里开启php_curl扩展，具体怎样安装网上有很多教程。
 
-# 测试地址
+* 数据库的信息配置在config目录下的config.php里，换成你的数据库的配置信息。
 
- 目前该项目已上线，可通过 http://cet.lenshen.com 测试。
- 效果如下：
-  首页
-  ![](https://github.com/lensh/cet/blob/master/cet/asset/image/1.png)
-  查询结果
-  ![](https://github.com/lensh/cet/blob/master/cet/asset/image/2.png)
-  
+* bin目录下的bat、shell文件需要配置，文件里面写了配置的方法。
+
+* 别忘了导入cet.sql文件到你的数据库里。
+
+
+
+# 接口API
+* 本系统免费提供API接口，具体接口如下所示:
+
+```
+请求方式: POST
+URL: http://cet.lenshen.com/src/model/query.php?action=1
+POST数据格式：json
+POST数据例子：{"name": "张三", "number": "360021162347654"}
+请求成功返回json:
+{ "code":200,
+  "message":"查询成功",
+  "data":{ "name":"张三", "school":"南昌大学", "type":"英语六级", "number":"360021162347654",
+   "total":"530", "listen":"170", "read":"200", "writing":"160"
+  }
+}
+请求失败返回json:
+{ "code":400,
+  "message":"查询失败，请检查你的信息是否无误"
+}
+```
+
+
+
+# 具体效果：
+* 首页
+
+  ![](https://github.com/lensh/Cet/blob/master/src/assets/img/cet1.png)
+
+* 查询结果
+
+  ![](https://github.com/lensh/Cet/blob/master/src/assets/img/cet2.png)
+
+* 邮件
+
+  ![](https://github.com/lensh/Cet/blob/master/src/assets/img/cet3.png)
+
 # FAQ
   如果在使用的过程中遇到问题，可以加我QQ：986992484。

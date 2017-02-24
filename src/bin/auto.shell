@@ -1,0 +1,16 @@
+
+# 这里是系统自动查询四六级的关键所在，linux系统下使用该shell文件，该文件也可以放在home目录下。
+
+0-59/10 8-21 * * * /usr/bin/php -f /var/www/html/Cet/src/bin/auto.php
+
+# 这条shell的意思是在每天的8至21点时间段内每隔10分钟去执行auto.php，这样当四六级官方公布成绩后,
+# 系统便可自动查询成绩，并调用auto.php，从而发送邮件。
+
+# 注意:
+#   需要使用linux的crontab工具来执行该shell文件
+#   -f 后面的参数应该是auto.php的绝对路径，如果你的项目已经放在了html目录下，则-f 参数不需要改
+#   auto.php必须是可执行文件，使用 chmod +x auto.php命令即可为其添加可执行权限
+
+# 如有疑问请参考：
+#	http://blog.csdn.net/zls986992484/article/details/53108836
+#	http://blog.csdn.net/zls986992484/article/details/52664175
