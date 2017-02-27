@@ -2,6 +2,8 @@
 
 /**
  * Mysql操作类
+ * @author leshen <986992484@qq.com>
+ * @version 1.1
  */
 class Mysql {
 

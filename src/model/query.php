@@ -12,13 +12,13 @@ if(!empty($_POST)){
 	//导入配置文件里的信息
 	$GLOBALS['config']=require_once('../config/config.php');
 
-	//安全过滤
+	//先进行安全过滤
 	$_POST=array_map('addslashes',$_POST);  // 防sql注入
 	$_POST=array_map('mysql_real_escape_string',$_POST);   //防xss攻击
 
 	if(empty($_GET['action'])) return;
 
-	//查询成绩
+	//如果是查询成绩
 	if(intval($_GET['action']==1)){   
 		
 		$data=array(
@@ -30,7 +30,7 @@ if(!empty($_POST)){
 		echo $cet->getScoreByNumber($data);
 	}
 
-	//新增用户
+	//如果是新增用户
 	else if(intval($_GET['action']==2)){  
 
 		$data=array(

@@ -1,8 +1,9 @@
 <?php
-
 /**
-* 自动发送四六级成绩邮件类
-*/
+ * 自动发送四六级成绩邮件类
+ * @author leshen <986992484@qq.com>
+ * @version 1.1
+ */
 class AutoSendEmail {
 
 	private $mysql;

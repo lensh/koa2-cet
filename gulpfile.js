@@ -17,7 +17,7 @@ var minifyCSS = require('gulp-minify-css');
 gulp.task('scripts', function() {
   gulp.src(['./src/assets/js/*.js'])
     .pipe(jshint())
-    .pipe(concat('all.js'))
+    .pipe(concat('script.js'))
     .pipe(stripDebug())
     .pipe(uglify())
     .pipe(gulp.dest('./dist/js/'));
