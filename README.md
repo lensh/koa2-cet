@@ -65,8 +65,6 @@ status=0的记录，找到后再去学信网抓取成绩，最后将成绩以邮
 
 >>> Curl.class.php     -----  Curl操作类，模拟请求
 
->>> Mysql.class.php     -----  Mysql操作类
-
 >>> query.php     -----  后台入口文件
 
 >>  PHPMailer		-----  第三方邮件发送包目录
@@ -109,7 +107,7 @@ status=0的记录，找到后再去学信网抓取成绩，最后将成绩以邮
 
 ```
 请求方式: POST
-URL: http://cet.lenshen.com/src/model/query.php?action=1
+URL: http://www.lenshen.com/cet/model/query.php?action=1
 POST数据格式：json
 POST数据例子：{"name": "张三", "number": "360021162347654"}
 请求成功返回json:
@@ -141,5 +139,6 @@ POST数据例子：{"name": "张三", "number": "360021162347654"}
   ![](https://github.com/lensh/Cet/blob/master/src/assets/img/cet3.png)
 
 # FAQ
- 官网:http://cet.lenshen.com
+ 官网:http://www.lenshen.com/cet  (可能会很慢，因为服务器带宽很低)
+
  若使用的过程中遇到问题，可以加官方群交流：611212696

@@ -1,11 +1,10 @@
 <?php
 //后台入口文件
 
-function __autoload($className){
-	require __DIR__.'\\'.$className.'.class.php';
-}
-
-
+//使用__autoload放到服务器上可能会报错，我们还是建议使用require导入
+require './AutoSendEmail.class.php';
+require './Cet.class.php';
+require './Curl.class.php';
 //如果有提交信息
 if(!empty($_POST)){
 
@@ -14,7 +13,7 @@ if(!empty($_POST)){
 
 	//先进行安全过滤
 	$_POST=array_map('addslashes',$_POST);  // 防sql注入
-	$_POST=array_map('mysql_real_escape_string',$_POST);   //防xss攻击
+	//$_POST=array_map('mysql_real_escape_string',$_POST); //防xss攻击，如果服务器不支持mysql，则这句应删除
 
 	if(empty($_GET['action'])) return;
 
@@ -40,7 +39,13 @@ if(!empty($_POST)){
 		);
 
 		$cet= new Cet();
-		echo $cet->addUserInfo($data);
+		$info=$cet->addUserInfo($data);
+		echo $info;
+		$arr=json_decode($info,true);
+		if($arr['code']==200){
+			$AutoCet=new AutoSendEmail();
+	    	$AutoCet->sendOne($arr['data'][0]);		
+		}
 	}
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "cet",
+  "name": "auto-cet",
   "version": "1.0.0",
   "description": "英语四六级自动查询",
   "main": "gulpfile.js",

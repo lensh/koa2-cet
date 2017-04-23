@@ -12,8 +12,10 @@ class AutoSendEmail {
 	 * 构造方法，连接mysql
 	 */
 	public function __construct(){
-		$this->mysql=new Mysql($GLOBALS['config']['DB_HOST'],$GLOBALS['config']['DB_USER'],
+		$GLOBALS['config']=require_once('../config/config.php');
+		$this->mysql=new Mysqli($GLOBALS['config']['DB_HOST'],$GLOBALS['config']['DB_USER'],
 			$GLOBALS['config']['DB_PASS'],$GLOBALS['config']['DB_NAME']);
+		$this->mysql->query("set names 'utf8'");
 	}
 
 	/**
@@ -76,13 +78,43 @@ class AutoSendEmail {
 			<p style="font-family: '微软雅黑';line-height: 25px">阅读:<span style="color: green;padding-left: 5px">$read</span></p>  
 			<p style="font-family: '微软雅黑';line-height: 25px">写作和翻译:<span style="color: green;padding-left: 5px">$writing</span></p>
 HTML;
-			//发送邮件
-	  		$this->sendEmail($v['email'], '四六级成绩结果通知',$content);
-
 	  		//更新状态
 	  		$this->update($v['id']);
+	  		//发送邮件
+	  		$this->sendEmail($v['email'], '四六级成绩结果通知',$content);
 		}
 
+	}
+
+	/**
+	 * 发送一封邮件
+	 * @return [type] [description]
+	 */
+	public function sendOne($v){
+		$cet=new Cet();
+		$res=$cet->getScoreByNumber(array('zkzh'=>$v['number'],'xm'=>$v['name']));
+		$arr=json_decode($res,1);
+
+		extract($arr['data']);
+		
+		$content =<<<HTML
+		<p style="font-size: 18px;font-family: '微软雅黑';">
+		四六级官网已公布成绩,您的CET成绩如下:</p><br/>
+		<p style="font-family: '微软雅黑';line-height: 25px">姓名:
+			<span style="color:red;font-weight: bolder;">$name</span>
+		</p> 
+		<p style="font-family: '微软雅黑';line-height: 25px">学校:<span style="color: green;padding-left: 5px">$school</span></p>
+		<p style="font-family: '微软雅黑';line-height: 25px">考试类别:<span style="color: green;padding-left: 5px">$type</span></p>  
+		<p style="font-family: '微软雅黑';line-height: 25px">准考证号:<span style="color: green;padding-left: 5px">$number</span></p>                 
+		<p style="font-family: '微软雅黑';line-height: 25px">总分:<span style="color: green;padding-left: 5px">$total</span></p>    
+		<p style="font-family: '微软雅黑';line-height: 25px">听力:<span style="color: green;padding-left: 5px">$listen</span></p>  
+		<p style="font-family: '微软雅黑';line-height: 25px">阅读:<span style="color: green;padding-left: 5px">$read</span></p>  
+		<p style="font-family: '微软雅黑';line-height: 25px">写作和翻译:<span style="color: green;padding-left: 5px">$writing</span></p>
+HTML;
+  		//更新状态
+  		$this->update($v['id']);
+  		//发送邮件
+  		$this->sendEmail($v['email'], '四六级成绩结果通知',$content);
 	}
 
 	/**
@@ -90,8 +122,9 @@ HTML;
 	 * @return array
 	 */
 	private function getData(){
- 		$data=$this->mysql->select('user','*','status=0');
- 		return $data;
+		$sql="select * from user where status=0 ";
+ 		$data=$this->mysql->query($sql);
+ 		return $this->toArray($data);
 	}
 
 	/**
@@ -100,6 +133,18 @@ HTML;
 	 * @return void
 	 */
 	private function update($id){
-		$bool=$this->mysql->update('user',array('status'=>1),$id);
+		$sql="update user set status=1 where id='$id'";
+		$this->mysql->query($sql);
+	}
+
+	/**
+	 * 将结果集转化成二维数组
+	 */
+	private function toArray($res){
+		$arr=array();
+		while ($row=$res->fetch_assoc()) {
+			$arr[]=$row;
+		}
+		return $arr;
 	}
 }

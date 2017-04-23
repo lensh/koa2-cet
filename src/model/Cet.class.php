@@ -71,32 +71,55 @@ class Cet{
 	public function addUserInfo($data){
 		extract($data);
 
-		$mysql=new Mysql($GLOBALS['config']['DB_HOST'],$GLOBALS['config']['DB_USER'],
+		$mysqli=new Mysqli($GLOBALS['config']['DB_HOST'],$GLOBALS['config']['DB_USER'],
 			$GLOBALS['config']['DB_PASS'],$GLOBALS['config']['DB_NAME']);
-		
-		$res=$mysql->findOne("user","id"," name= '$xm' and number='$zkzh'");
-
-		if($res){
+		$mysqli->query("set names 'utf8'");
+		$res=$mysqli->query("select id from user where name='{$xm}' and 
+			number='{$zkzh}' limit 1 ");
+		if($res->num_rows==1){
 		    return json_encode(array(
 				"code"=>400,
 				"message"=>"您已成功注册过,不能重复注册"
-			));
-		}else{
-			$bool=$mysql->insert('user',array('name'=>$xm,'number'=>$zkzh,
-				'email'=>$email,'time'=>time()
-			));
-			if($bool){
+			));		
+		}
+
+		$time=time();
+		$bool=$mysqli->query("insert into user (name,number,email,time) 
+			values('$xm','$zkzh','$email','$time')");
+		if($bool){
+			//如果是四六级成绩已经出来了，则直接发送
+			if($this->checkmonth()){
+				$res=$mysqli->query("select * from user where name='{$xm}' and 
+			number='{$zkzh}' limit 1 ");
+				$arr=array();
+				while ($row=$res->fetch_assoc()) {
+					$arr[]=$row;
+				}
 				return json_encode(array(
 					"code"=>200,
-					"message"=>"保存成功,四六级成绩出来后会发送成绩到您的邮箱"
-				));
-			}else{
-				return json_encode(array(
-					"code"=>500,
-					"message"=>"服务器内部错误,保存失败"
-				));	
+					"message"=>"保存成功,稍后会发送成绩到您的邮箱",
+					"data"=>$arr
+				));		
 			}
+			return json_encode(array(
+					"code"=>200,
+					"message"=>"保存成功,四六级成绩出来后会发送成绩到您的邮箱"
+			));
 		}
+
+		return json_encode(array(
+			"code"=>500,
+			"message"=>"服务器内部错误,保存失败"
+		));	
+	}
+    
+    /**
+     * 检验当前的月份
+     * @return [type] [description]
+     */
+	private function checkmonth(){
+		$arr=array(3,4,5,9,10,11);
+		return in_array(date('m',time()),$arr);
 	}
 }
 
