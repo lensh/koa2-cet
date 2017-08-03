@@ -25,9 +25,9 @@
 
 本系统免费提供API接口，具体接口如下所示:
 ```
-URL: http://lenshen.com:8001/api/query?name=姓名&number=准考证号
+URL: http://lenshen.com:8001/api/search?user=姓名&number=准考证号
 参数说明：
-    name  姓名
+    user  姓名
     number  准考证号
 请求方式: GET
 请求成功返回json:
@@ -55,10 +55,10 @@ URL: http://lenshen.com:8001/api/query?name=姓名&number=准考证号
 
 
 如果使用JSONP，则需要在url里传入callback：
-URL:http://localhost:8001/api/search?callback=cb&&number=准考证号&user=汪磊
+URL:http://lenshen.com:8001/api/search?callback=cb&&number=准考证号&user=姓名
 参数说明：  
     callback  回调函数名称
-    name  姓名 
+    user  姓名 
     number  准考证号
 请求方式: GET
 请求成功返回jsonp:
@@ -83,6 +83,9 @@ cb({
 })
 ```
 
+测试用户：
+   姓名：汪磊
+   准考证号：360021162100112
 # FAQ
 
 若使用的过程中遇到问题，可以加官方群交流：611212696
