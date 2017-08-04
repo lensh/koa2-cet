@@ -4,7 +4,7 @@
 
 # 预览
 
-在线预览地址: http://lenshen.com:8001
+在线预览地址: https://cet.lenshen.com
 
 # 技术栈
 
@@ -16,6 +16,7 @@
 * **cors**：服务端返回数据时做了cors设置，允许跨域
 * **jsonp**：支持JSONP请求，客户端需要传入回调函数名称
 * **pm2**：服务端使用pm2部署，常驻进程，比forever好用得多（https://github.com/Unitech/pm2）
+* **nginx**：服务端代理端口转发
 
 # 使用说明
 
@@ -25,7 +26,7 @@
 
 本系统免费提供API接口，具体接口如下所示:
 ```
-URL: http://lenshen.com:8001/api/search?user=姓名&number=准考证号
+URL: https://cet.lenshen.com/api/search?user=姓名&number=准考证号
 参数说明：
     user  姓名
     number  准考证号
@@ -55,7 +56,7 @@ URL: http://lenshen.com:8001/api/search?user=姓名&number=准考证号
 
 
 如果使用JSONP，则需要在url里传入callback：
-URL:http://lenshen.com:8001/api/search?callback=cb&&number=准考证号&user=姓名
+URL:https://cet.lenshen.com/api/search?callback=cb&&number=准考证号&user=姓名
 参数说明：  
     callback  回调函数名称
     user  姓名 
@@ -84,8 +85,11 @@ cb({
 ```
 
 测试用户：
+
    姓名：汪磊
+
    准考证号：360021162100112
+   
 # FAQ
 
 若使用的过程中遇到问题，可以加官方群交流：611212696
