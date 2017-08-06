@@ -7,6 +7,7 @@
     "dev": "./node_modules/.bin/nodemon bin/www",
     "pm2": "pm2 start bin/www"
   },
+  "main": "gulpfile.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "debug": "^2.6.3",
@@ -25,6 +26,15 @@
     "babel-core": "^6.25.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-preset-stage-0": "^6.24.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-strip-debug": "^1.1.0",
+    "gulp-uglify": "^2.0.1",
+    "jshint": "^2.9.4"
   }
 }

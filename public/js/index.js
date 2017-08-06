@@ -1,12 +1,11 @@
 var Cet = angular.module('myCet', []);
-
-Cet.controller('mainController', function($scope, $http) {
+Cet.controller('mainController', ['$scope', '$http', function($scope, $http) {
 
 	$scope.btn = {
 		'disabled': false,
 		'val': '查询'
 	};
-	$scope.year=new Date().getFullYear()
+	$scope.year = new Date().getFullYear()
 
 	$scope.submitForm = function() {
 		$scope.btn = {
@@ -43,4 +42,4 @@ Cet.controller('mainController', function($scope, $http) {
 		});
 	}
 
-});
+}]);
