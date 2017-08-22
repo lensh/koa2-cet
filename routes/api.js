@@ -5,11 +5,7 @@ const router = koaRouter()
 router.prefix('/api')
 
 router.get('/search', async(ctx, next) => {
-	const {
-		user,
-		number,
-		callback
-	} = ctx.query
+	const {user,number,callback} = ctx.query
 
 	ctx.set("Access-Control-Allow-Origin", "*") //设置cors，允许跨域
 

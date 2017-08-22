@@ -18,6 +18,7 @@ export default class Api {
 
 		// 解析网页内容
 		const result = this.parseData(data)
+		console.log(result)
 
 		// 返回
 		return result.total > 0 ? {
